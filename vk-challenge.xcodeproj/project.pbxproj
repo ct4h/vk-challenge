@@ -13,6 +13,8 @@
 		501C7CF72196FD0500EFB252 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 501C7CF52196FD0500EFB252 /* LaunchScreen.storyboard */; };
 		501C7D022196FDB300EFB252 /* FeedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C7D012196FDB300EFB252 /* FeedsViewController.swift */; };
 		50BD153E21970B1400E28463 /* Temp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BD153D21970B1400E28463 /* Temp.swift */; };
+		50BD154121970C9200E28463 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BD154021970C9200E28463 /* Model.swift */; };
+		50BD15442197108C00E28463 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BD15432197108C00E28463 /* ApiClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		501C7CF82196FD0500EFB252 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		501C7D012196FDB300EFB252 /* FeedsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsViewController.swift; sourceTree = "<group>"; };
 		50BD153D21970B1400E28463 /* Temp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temp.swift; sourceTree = "<group>"; };
+		50BD154021970C9200E28463 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		50BD15432197108C00E28463 /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +73,8 @@
 		501C7CFE2196FD3C00EFB252 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				50BD15422197106B00E28463 /* Api */,
+				50BD153F21970B5900E28463 /* Models */,
 				501C7CFF2196FD3C00EFB252 /* Modules */,
 			);
 			path = Classes;
@@ -89,6 +95,22 @@
 				50BD153D21970B1400E28463 /* Temp.swift */,
 			);
 			path = Feeds;
+			sourceTree = "<group>";
+		};
+		50BD153F21970B5900E28463 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				50BD154021970C9200E28463 /* Model.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		50BD15422197106B00E28463 /* Api */ = {
+			isa = PBXGroup;
+			children = (
+				50BD15432197108C00E28463 /* ApiClient.swift */,
+			);
+			path = Api;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -165,6 +187,8 @@
 				501C7D022196FDB300EFB252 /* FeedsViewController.swift in Sources */,
 				501C7CED2196FD0100EFB252 /* AppDelegate.swift in Sources */,
 				50BD153E21970B1400E28463 /* Temp.swift in Sources */,
+				50BD154121970C9200E28463 /* Model.swift in Sources */,
+				50BD15442197108C00E28463 /* ApiClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
