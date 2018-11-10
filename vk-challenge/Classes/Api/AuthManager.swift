@@ -20,7 +20,12 @@ class AuthManager: NSObject {
 
     override init() {
         super.init()
-        VKSdk.initialize(withAppId: "6747661")?.register(self)
+        let instance = VKSdk.initialize(withAppId: "6747661")
+        instance?.register(self)
+        instance?.uiDelegate = self
+
+        // TODO: Dev
+//        VKSdk.forceLogout()
     }
 
     private var permissions: [Any] {
@@ -58,5 +63,17 @@ extension AuthManager: VKSdkDelegate {
 
     func vkSdkUserAuthorizationFailed() {
         print("Failed")
+    }
+}
+
+extension AuthManager: VKSdkUIDelegate {
+
+    func vkSdkShouldPresent(_ controller: UIViewController!) {
+        let rootController = UIApplication.shared.delegate?.window??.rootViewController
+        rootController?.present(controller, animated: true, completion: nil)
+    }
+
+    func vkSdkNeedCaptchaEnter(_ captchaError: VKError!) {
+        print("vkSdkNeedCaptchaEnter")
     }
 }

@@ -51,18 +51,18 @@ class ApiClient {
 
             if let data = data {
 
-                if let jsonData = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) {
-                    print("\(jsonData)")
-                }
+//                if let jsonData = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) {
+//                    print("\(jsonData)")
+//                }
 
                 do {
                     let parsedData = try JSONDecoder().decode(ApiResponse<T>.self, from: data)
-                    print("\(parsedData)")
+                    complitionBlock(parsedData.response)
+//                    print("\(parsedData)")
                 } catch {
                     print("Error \(error)")
                 }
             }
-            complitionBlock(nil)
         }
 
         task.resume()
