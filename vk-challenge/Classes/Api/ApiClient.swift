@@ -32,18 +32,15 @@ struct ApiResponse<T: Decodable>: Decodable {
 
 class ApiClient {
 
+    var accessToken: String?
+
     func send<T: Decodable>(request: ApiRequest, complitionBlock: @escaping (T?) -> Void) {
-//        https://api.vk.com/method/users.get?user_id=210700286&v=5.52
-        let cliendID = "6747661"
         let baseURL = "https://api.vk.com/method/"
         let session = URLSession.shared
 
-//        client_id=5490057&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=friends&response_type=token&v=5.52
-        guard let url = URL(string: baseURL + request.method + "?client_id=\(cliendID)") else {
+        guard let url = URL(string: baseURL + request.method + "?access_token=\(accessToken ?? "")&v=5.87") else {
             return
         }
-
-
 
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = request.httpMethod

@@ -15,6 +15,8 @@
 		50BD153E21970B1400E28463 /* Temp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BD153D21970B1400E28463 /* Temp.swift */; };
 		50BD154121970C9200E28463 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BD154021970C9200E28463 /* Model.swift */; };
 		50BD15442197108C00E28463 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BD15432197108C00E28463 /* ApiClient.swift */; };
+		50BD154721971C4200E28463 /* VKSdkFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50BD154621971C4200E28463 /* VKSdkFramework.framework */; };
+		50BD154A21971E4300E28463 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BD154921971E4300E28463 /* AuthManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		50BD153D21970B1400E28463 /* Temp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temp.swift; sourceTree = "<group>"; };
 		50BD154021970C9200E28463 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		50BD15432197108C00E28463 /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
+		50BD154621971C4200E28463 /* VKSdkFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VKSdkFramework.framework; path = Carthage/Build/iOS/VKSdkFramework.framework; sourceTree = "<group>"; };
+		50BD154921971E4300E28463 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50BD154721971C4200E28463 /* VKSdkFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +51,7 @@
 			children = (
 				501C7CEB2196FD0100EFB252 /* vk-challenge */,
 				501C7CEA2196FD0100EFB252 /* Products */,
+				50BD154521971C4200E28463 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -109,8 +115,17 @@
 			isa = PBXGroup;
 			children = (
 				50BD15432197108C00E28463 /* ApiClient.swift */,
+				50BD154921971E4300E28463 /* AuthManager.swift */,
 			);
 			path = Api;
+			sourceTree = "<group>";
+		};
+		50BD154521971C4200E28463 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				50BD154621971C4200E28463 /* VKSdkFramework.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -123,6 +138,7 @@
 				501C7CE52196FD0100EFB252 /* Sources */,
 				501C7CE62196FD0100EFB252 /* Frameworks */,
 				501C7CE72196FD0100EFB252 /* Resources */,
+				50BD154821971C4A00E28463 /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -179,12 +195,36 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		50BD154821971C4A00E28463 /* Carthage */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/VKSdkFramework.framework",
+			);
+			name = Carthage;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/VKSdkFramework.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "carthage copy-frameworks\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		501C7CE52196FD0100EFB252 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				501C7D022196FDB300EFB252 /* FeedsViewController.swift in Sources */,
+				50BD154A21971E4300E28463 /* AuthManager.swift in Sources */,
 				501C7CED2196FD0100EFB252 /* AppDelegate.swift in Sources */,
 				50BD153E21970B1400E28463 /* Temp.swift in Sources */,
 				50BD154121970C9200E28463 /* Model.swift in Sources */,
@@ -337,6 +377,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 26EKC3EJPY;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "vk-challenge/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -358,6 +402,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 26EKC3EJPY;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "vk-challenge/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (

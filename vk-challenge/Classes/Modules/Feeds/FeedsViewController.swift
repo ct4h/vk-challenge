@@ -10,6 +10,7 @@ import UIKit
 
 class FeedsViewController: UIViewController {
 
+    let authManager = AuthManager()
     let apiClient = ApiClient()
     let tableView = UITableView()
 
@@ -17,6 +18,8 @@ class FeedsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        authManager.delegate = self
 
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CellID")
         tableView.dataSource = self
@@ -31,9 +34,7 @@ class FeedsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        apiClient.send(request: .newsfeed) { (data: NewsFeedResponse?) in
-            print("[\(Thread.isMainThread ? "MAIN": "BACK")] end request")
-        }
+        authManager.updateToken()
     }
 }
 
@@ -57,5 +58,16 @@ extension FeedsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return cellHeight[indexPath.row]
+    }
+}
+
+extension FeedsViewController: AuthManagerDelegate {
+
+    func completeUpdate(token: String?) {
+        apiClient.accessToken = token
+
+        apiClient.send(request: .newsfeed) { (data: NewsFeedResponse?) in
+            print("[\(Thread.isMainThread ? "MAIN": "BACK")] end request")
+        }
     }
 }

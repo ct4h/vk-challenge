@@ -16,10 +16,10 @@ struct Post: Decodable {
 
     let text: String?
 
-    let likes: Likes
-    let comments: Comments
-    let reposts: Reposts
-    let views: Views
+    let likes: Likes?
+    let comments: Comments?
+    let reposts: Reposts?
+    let views: Views?
 
 //    "comments": {
 //    "count": 1,
@@ -44,7 +44,6 @@ struct Post: Decodable {
 
 struct Likes: Decodable {
     let count: Int
-    let user_likes: Bool
 
 //    "count": 4,
 //    "user_likes": 0,
@@ -61,7 +60,7 @@ struct Comments: Decodable {
 
 struct Reposts: Decodable {
     let count: Int
-    let user_reposted: Bool
+    let user_reposted: Int
 }
 
 struct Views: Decodable {

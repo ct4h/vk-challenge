@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import VKSdkFramework
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -42,5 +43,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        if let application = options[.sourceApplication] as? String {
+            VKSdk.processOpen(url, fromApplication: application)
+        }
+        return true
+    }
 }
 
