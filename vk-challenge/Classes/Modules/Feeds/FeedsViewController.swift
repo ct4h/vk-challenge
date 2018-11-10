@@ -1,0 +1,124 @@
+//
+//  FeedsViewController.swift
+//  vk-challenge
+//
+//  Created by basalaev on 10/11/2018.
+//  Copyright © 2018 basalaev. All rights reserved.
+//
+
+import UIKit
+
+class FeedsViewController: UIViewController {
+
+    let tableView = UITableView()
+
+    let cellHeight: [CGFloat] = [80, 100, 150, 240, 300, 400, 600, 1200, 1800, 600, 400, 300, 240, 40]
+
+    let text = """
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CellID")
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        tableView.frame = view.bounds
+        view.addSubview(tableView)
+
+        tableView.separatorColor = .red
+    }
+}
+
+extension FeedsViewController: UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return cellHeight.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CellID") else {
+            fatalError("")
+        }
+        return cell
+    }
+}
+
+extension FeedsViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return cellHeight[indexPath.row]
+    }
+}
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CellID")
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        tableView.frame = view.bounds
+        view.addSubview(tableView)
+
+        tableView.separatorColor = .red
+    }
+}
+
+extension FeedsViewController: UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return cellHeight.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CellID") else {
+            fatalError("")
+        }
+        return cell
+    }
+}
+
+extension FeedsViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return cellHeight[indexPath.row]
+    }
+}
+
+"""
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CellID")
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        tableView.frame = view.bounds
+        view.addSubview(tableView)
+
+        tableView.separatorColor = .red
+    }
+}
+
+extension FeedsViewController: UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return cellHeight.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CellID") else {
+            fatalError("")
+        }
+        cell.textLabel?.numberOfLines = 0
+        cell.textLabel?.text = text
+        return cell
+    }
+}
+
+extension FeedsViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return cellHeight[indexPath.row]
+    }
+}
