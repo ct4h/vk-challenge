@@ -12,6 +12,8 @@ class FeedCellViewModel {
 
     static let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
+        // TODO: Форматтер с годом
+        // TODO: Локализация
         dateFormatter.dateFormat = "dd MMM в hh:mm"
         dateFormatter.locale = Locale.current
         return dateFormatter
@@ -27,6 +29,7 @@ class FeedCellViewModel {
     }
 
     let headerVM: FeedHeaderViewModel?
+    let footerVM: FeedFooterViewModel?
 
     let textStorage: NSTextStorage?
     var textSize: CGSize?
@@ -43,6 +46,15 @@ class FeedCellViewModel {
             headerVM = FeedHeaderViewModel(imageURL: imageURL, name: owner.name, date: dateString)
         } else {
             headerVM = nil
+        }
+
+        if let likes = post.likes, let repost = post.reposts {
+            footerVM = FeedFooterViewModel(likes: likes.count.userFriendly,
+                                           comments: post.comments?.count.userFriendly,
+                                           reposts: repost.count.userFriendly,
+                                           views: post.views?.count.userFriendly)
+        } else {
+            footerVM = nil
         }
 
         // TODO: Настроить шрифты
@@ -62,10 +74,28 @@ class FeedCellViewModel {
             self.textSize = textSize
         }
 
+        // TODO: Сделать захват фрейма хедера
+
         let headerHeight: CGFloat = 36
         let margin: CGFloat = 12
         let spacing: CGFloat = 10
+        let footerHeight: CGFloat = 48
         let bottomShadowOffset: CGFloat = 12
-        self.height = height + headerHeight + margin + spacing + bottomShadowOffset
+        self.height = height + headerHeight + margin + spacing + bottomShadowOffset + footerHeight
+    }
+}
+
+extension Int {
+
+    var userFriendly: String {
+        if self == 0 {
+            return ""
+        } else if self >= 1_000_000 {
+            return "999+К"
+        } else if self < 1_000 {
+            return String(self)
+        } else {
+            return "\(self / 1_000)K"
+        }
     }
 }

@@ -78,11 +78,11 @@ protocol PostOwner {
 struct Profile: Decodable, PostOwner {
     let id: Int
     let first_name: String
-    let last_name: String
+    let last_name: String?
     let photo_100: String
 
     var name: String {
-        return first_name + last_name
+        return first_name + " " + (last_name ?? "")
     }
 }
 

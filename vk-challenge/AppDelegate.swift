@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let controller = FeedsViewController()
         let navigationController = UINavigationController(rootViewController: controller)
+        navigationController.hidesBarsOnSwipe = true
         let window = UIWindow()
         window.rootViewController = navigationController
         window.makeKeyAndVisible()

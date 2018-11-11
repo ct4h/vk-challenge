@@ -39,15 +39,19 @@ class FeedCell: UITableViewCell {
         return view
     }()
 
+    let footerView = FeedFooterView()
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
+        selectionStyle = .none
+        
         backgroundColor = .clear
         contentView.backgroundColor = .clear
 
         contentView.addSubview(bubbleView)
         bubbleView.addSubview(headerView)
-//        contentView.addSubview(headerView)
+        bubbleView.addSubview(footerView)
         contentView.addSubview(textView)
     }
 
@@ -86,6 +90,11 @@ class FeedCell: UITableViewCell {
         //textView.layer.shouldRasterize = true
         } else {
             textView.isHidden = true
+        }
+
+        if let footerVM = viewModel.footerVM {
+            footerView.frame = CGRect(x: 0, y: textView.frame.maxY, width: bubbleView.bounds.width, height: 48)
+            footerView.configureBy(viewModel: footerVM)
         }
     }
 
