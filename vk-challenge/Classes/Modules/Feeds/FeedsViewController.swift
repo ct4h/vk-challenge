@@ -13,6 +13,7 @@ class FeedsViewController: UIViewController {
     var apiClient: ApiClient!
     let paginationManager = PaginationManager()
     let tableView = UITableView()
+    let refreshControl = UIRefreshControl()
 
     var viewModels: [FeedCellViewModel] = []
 
@@ -54,6 +55,10 @@ class FeedsViewController: UIViewController {
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
         view.addSubview(tableView)
+
+        refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+        refreshControl.tintColor = UIColor(red: 0.56, green: 0.58, blue: 0.6, alpha: 1)
+        tableView.addSubview(refreshControl)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -62,6 +67,12 @@ class FeedsViewController: UIViewController {
         if viewModels.isEmpty {
             paginationManager.refreshData()
         }
+    }
+
+    @objc
+    private func handleRefreshControl() {
+        print("handleRefreshControl")
+        paginationManager.refreshData()
     }
 }
 
@@ -99,7 +110,7 @@ extension FeedsViewController: PaginationManagerDelegate {
     func performRequest(next: String?, completion: @escaping (String?, Int) -> Void) -> URLSessionTask? {
         return apiClient.send(request: .newsfeed(startFrom: next)) { [weak self] (data: NewsFeedResponse?) in
             print("[\(Thread.isMainThread ? "MAIN": "BACK")] end request")
-            self?.process(data: data)
+            self?.process(data: data, force: next == nil)
 
             if let data = data {
                 DispatchQueue.main.async {
@@ -109,7 +120,7 @@ extension FeedsViewController: PaginationManagerDelegate {
         }
     }
 
-    private func process(data: NewsFeedResponse?) {
+    private func process(data: NewsFeedResponse?, force: Bool) {
         guard let data = data else {
             return
         }
@@ -134,8 +145,18 @@ extension FeedsViewController: PaginationManagerDelegate {
         }
 
         DispatchQueue.main.async { [weak self] in
-            self?.viewModels.append(contentsOf: newPosts)
+            if force {
+                self?.viewModels = newPosts
+            } else {
+                self?.viewModels.append(contentsOf: newPosts)
+            }
+
             self?.tableView.reloadData()
+
+            if force {
+                self?.refreshControl.endRefreshing()
+                self?.tableView.addFadeAnimation()
+            }
         }
     }
 }
@@ -159,7 +180,7 @@ class PaginationManager {
     }
 
     func refreshData() {
-        loadData(force: false)
+        loadData(force: true)
     }
 
     func loadNextData(indexPath: IndexPath) {
@@ -182,14 +203,14 @@ class PaginationManager {
     private func loadData(force: Bool) {
         isLoading = true
         currentTask?.cancel()
-        currentTask = delegate?.performRequest(next: next_from, completion: { [weak self] next, count in
+        currentTask = delegate?.performRequest(next: force ? nil : next_from, completion: { [weak self] next, count in
             self?.isEnd = next == nil
             self?.next_from = next
             if force {
                 self?.offset = 0
-            } else {
-                self?.offset += count / 2
             }
+
+            self?.offset += count / 2
 
             self?.isLoading = false
         })
