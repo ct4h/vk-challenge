@@ -32,6 +32,7 @@ class FeedCell: UITableViewCell {
         view.isScrollEnabled = false
         view.isEditable = false
         view.backgroundColor = .white
+//        view.layer.rasterizationScale = UIScreen.main.scale
 //        view.textContainer.maximumNumberOfLines = 6
         return view
     }()
@@ -61,6 +62,7 @@ class FeedCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
+//        textView.layer.shouldRasterize = false
         textView.attributedText = nil
     }
 
@@ -69,6 +71,7 @@ class FeedCell: UITableViewCell {
             textView.frame = CGRect(x: Constants.textMargin, y: 0, width: textSize.width, height: textSize.height)
             textView.attributedText = textStorage
             textView.isHidden = false
+        //textView.layer.shouldRasterize = true
         } else {
             textView.isHidden = true
         }

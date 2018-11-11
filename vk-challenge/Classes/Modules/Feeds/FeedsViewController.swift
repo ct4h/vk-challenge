@@ -28,13 +28,6 @@ class FeedsViewController: UIViewController {
         layer.contentsScale = UIScreen.main.scale
         layer.frame = UIScreen.main.bounds
         return layer
-
-//        let layer = CAGradientLayer()
-//        layer.frame = UIScreen.main.bounds
-//        layer.colors = [UIColor(red: 0.97, green: 0.97, blue: 0.98, alpha: 1.0).cgColor,
-//                        UIColor(red: 0.92, green: 0.93, blue: 0.94, alpha: 1.0).cgColor]
-//        layer.contentsScale = UIScreen.main.scale
-//        return layer
     }()
 
     override func viewDidLoad() {
@@ -68,13 +61,13 @@ extension FeedsViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CellID") as? FeedCell else {
-            fatalError("")
-        }
-
-        cell.configureBy(viewModel: viewModels[indexPath.row])
-
-        return cell
+        return tableView.dequeueReusableCell(withIdentifier: "CellID", for: indexPath)
+//
+//        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CellID", for: indexPath) else {
+//            fatalError("")
+//        }
+//
+//        return cell
     }
 }
 
@@ -82,6 +75,14 @@ extension FeedsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return viewModels[indexPath.row].height
+    }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let cell = cell as? FeedCell else {
+            return
+        }
+
+        cell.configureBy(viewModel: viewModels[indexPath.row])
     }
 }
 
