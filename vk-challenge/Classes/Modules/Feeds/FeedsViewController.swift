@@ -10,7 +10,6 @@ import UIKit
 
 class FeedsViewController: UIViewController {
 
-    let authManager = AuthManager()
     let apiClient = ApiClient()
     let tableView = UITableView()
 
@@ -30,10 +29,18 @@ class FeedsViewController: UIViewController {
         return layer
     }()
 
+    init(accessToken: String?) {
+        super.init(nibName: nil, bundle: nil)
+
+        apiClient.accessToken = accessToken
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        authManager.delegate = self
 
         view.layer.addSublayer(gradientBackground)
 
@@ -47,10 +54,10 @@ class FeedsViewController: UIViewController {
         view.addSubview(tableView)
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
 
-        authManager.updateToken()
+        loadData()
     }
 }
 
@@ -62,12 +69,6 @@ extension FeedsViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return tableView.dequeueReusableCell(withIdentifier: "CellID", for: indexPath)
-//
-//        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CellID", for: indexPath) else {
-//            fatalError("")
-//        }
-//
-//        return cell
     }
 }
 
@@ -86,11 +87,11 @@ extension FeedsViewController: UITableViewDelegate {
     }
 }
 
-extension FeedsViewController: AuthManagerDelegate {
+// MARK: - API
 
-    func completeUpdate(token: String?) {
-        apiClient.accessToken = token
+extension FeedsViewController {
 
+    func loadData() {
         apiClient.send(request: .newsfeed) { [weak self] (data: NewsFeedResponse?) in
             print("[\(Thread.isMainThread ? "MAIN": "BACK")] end request")
             self?.process(data: data)

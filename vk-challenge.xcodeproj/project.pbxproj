@@ -14,6 +14,7 @@
 		5038C2772198635B003DA3BB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5038C2762198635B003DA3BB /* Localizable.strings */; };
 		5038C27921988171003DA3BB /* AttachImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5038C27821988171003DA3BB /* AttachImageView.swift */; };
 		5038C27B219891A7003DA3BB /* AttachmentsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5038C27A219891A7003DA3BB /* AttachmentsCollectionView.swift */; };
+		5038C27D219898E7003DA3BB /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5038C27C219898E7003DA3BB /* AuthViewController.swift */; };
 		50BD154121970C9200E28463 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BD154021970C9200E28463 /* Model.swift */; };
 		50BD15442197108C00E28463 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BD15432197108C00E28463 /* ApiClient.swift */; };
 		50BD154721971C4200E28463 /* VKSdkFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50BD154621971C4200E28463 /* VKSdkFramework.framework */; };
@@ -36,6 +37,7 @@
 		5038C2762198635B003DA3BB /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		5038C27821988171003DA3BB /* AttachImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachImageView.swift; sourceTree = "<group>"; };
 		5038C27A219891A7003DA3BB /* AttachmentsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentsCollectionView.swift; sourceTree = "<group>"; };
+		5038C27C219898E7003DA3BB /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		50BD154021970C9200E28463 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		50BD15432197108C00E28463 /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
 		50BD154621971C4200E28463 /* VKSdkFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VKSdkFramework.framework; path = Carthage/Build/iOS/VKSdkFramework.framework; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				501C7D012196FDB300EFB252 /* FeedsViewController.swift */,
+				5038C27C219898E7003DA3BB /* AuthViewController.swift */,
 			);
 			path = Feeds;
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 				5038C27921988171003DA3BB /* AttachImageView.swift in Sources */,
 				5038C27B219891A7003DA3BB /* AttachmentsCollectionView.swift in Sources */,
 				501C7CED2196FD0100EFB252 /* AppDelegate.swift in Sources */,
+				5038C27D219898E7003DA3BB /* AuthViewController.swift in Sources */,
 				50BD154121970C9200E28463 /* Model.swift in Sources */,
 				50BD15552197F8C900E28463 /* FeedHeaderView.swift in Sources */,
 				50BD15442197108C00E28463 /* ApiClient.swift in Sources */,

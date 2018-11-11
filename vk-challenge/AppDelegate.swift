@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         URLCache.shared = URLCache(memoryCapacity: 100 * 1024 * 1024, diskCapacity: 300 * 1024 * 1024, diskPath: nil)
 
-        let controller = FeedsViewController()
+        let controller = AuthViewController()
         let navigationController = UINavigationController(rootViewController: controller)
         navigationController.hidesBarsOnSwipe = true
         let window = UIWindow()

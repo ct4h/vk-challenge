@@ -11,14 +11,17 @@ import VKSdkFramework
 
 protocol AuthManagerDelegate: class {
     func completeUpdate(token: String?)
+    func needDisplay(viewController: UIViewController)
 }
 
 class AuthManager: NSObject {
 
+    static let shared = AuthManager()
+
     var accessToken: String?
     weak var delegate: AuthManagerDelegate?
 
-    override init() {
+    private override init() {
         super.init()
         let instance = VKSdk.initialize(withAppId: "6747661")
         instance?.register(self)
@@ -69,8 +72,7 @@ extension AuthManager: VKSdkDelegate {
 extension AuthManager: VKSdkUIDelegate {
 
     func vkSdkShouldPresent(_ controller: UIViewController!) {
-        let rootController = UIApplication.shared.delegate?.window??.rootViewController
-        rootController?.present(controller, animated: true, completion: nil)
+        delegate?.needDisplay(viewController: controller)
     }
 
     func vkSdkNeedCaptchaEnter(_ captchaError: VKError!) {
