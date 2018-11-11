@@ -102,19 +102,21 @@ extension FeedsViewController: AuthManagerDelegate {
             return
         }
 
-        // TODO: Потоки
-
-        // TODO: Сконвертировать в объект пригодный для отображения
-//        posts.append(contentsOf: data.items)
-
-//        let contentViewPrototype = FeedContentView()
-
         var newPosts: [FeedCellViewModel] = []
 
         let containerSize = CGSize(width: UIScreen.main.bounds.width, height: CGFloat.greatestFiniteMagnitude)
 
         data.items.forEach { post in
-            let viewModel = FeedCellViewModel(post: post)
+            let owner: PostOwner?
+
+            if post.source_id < 0 {
+                let groupID = abs(post.source_id)
+                owner = data.groups.first(where: { $0.id == groupID })
+            } else {
+                owner = data.profiles.first(where: { $0.id == post.source_id })
+            }
+
+            let viewModel = FeedCellViewModel(post: post, owner: owner)
             viewModel.updateLayout(containerSize: containerSize)
             newPosts.append(viewModel)
         }

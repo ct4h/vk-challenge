@@ -18,7 +18,7 @@
 		50BD154A21971E4300E28463 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BD154921971E4300E28463 /* AuthManager.swift */; };
 		50BD154D21972A0300E28463 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BD154C21972A0300E28463 /* FeedCell.swift */; };
 		50BD155121973F3900E28463 /* FeedCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BD155021973F3900E28463 /* FeedCellViewModel.swift */; };
-		50BD1553219777C700E28463 /* Colors+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BD1552219777C700E28463 /* Colors+.swift */; };
+		50BD15552197F8C900E28463 /* FeedHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BD15542197F8C900E28463 /* FeedHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,7 +35,7 @@
 		50BD154921971E4300E28463 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		50BD154C21972A0300E28463 /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		50BD155021973F3900E28463 /* FeedCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCellViewModel.swift; sourceTree = "<group>"; };
-		50BD1552219777C700E28463 /* Colors+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Colors+.swift"; sourceTree = "<group>"; };
+		50BD15542197F8C900E28463 /* FeedHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,7 +137,7 @@
 			children = (
 				50BD154C21972A0300E28463 /* FeedCell.swift */,
 				50BD155021973F3900E28463 /* FeedCellViewModel.swift */,
-				50BD1552219777C700E28463 /* Colors+.swift */,
+				50BD15542197F8C900E28463 /* FeedHeaderView.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -242,8 +242,8 @@
 				501C7D022196FDB300EFB252 /* FeedsViewController.swift in Sources */,
 				50BD154A21971E4300E28463 /* AuthManager.swift in Sources */,
 				501C7CED2196FD0100EFB252 /* AppDelegate.swift in Sources */,
-				50BD1553219777C700E28463 /* Colors+.swift in Sources */,
 				50BD154121970C9200E28463 /* Model.swift in Sources */,
+				50BD15552197F8C900E28463 /* FeedHeaderView.swift in Sources */,
 				50BD15442197108C00E28463 /* ApiClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -25,6 +25,8 @@ class FeedCell: UITableViewCell {
         return view
     }()
 
+    let headerView = FeedHeaderView()
+
     let textView: UITextView = {
         let view = UITextView()
         view.contentInset = .zero
@@ -44,6 +46,8 @@ class FeedCell: UITableViewCell {
         contentView.backgroundColor = .clear
 
         contentView.addSubview(bubbleView)
+        bubbleView.addSubview(headerView)
+//        contentView.addSubview(headerView)
         contentView.addSubview(textView)
     }
 
@@ -67,8 +71,16 @@ class FeedCell: UITableViewCell {
     }
 
     func configureBy(viewModel: FeedCellViewModel) {
+        if let headerVM = viewModel.headerVM {
+            headerView.frame = CGRect(x: 12, y: 12, width: bubbleView.bounds.width - 24, height: 36)
+            headerView.configureBy(viewModel: headerVM)
+            headerView.isHidden = false
+        } else {
+            headerView.isHidden = true
+        }
+
         if let textStorage = viewModel.textStorage, let textSize = viewModel.textSize {
-            textView.frame = CGRect(x: Constants.textMargin, y: 0, width: textSize.width, height: textSize.height)
+            textView.frame = CGRect(x: Constants.textMargin, y: headerView.frame.maxY + 10, width: textSize.width, height: textSize.height)
             textView.attributedText = textStorage
             textView.isHidden = false
         //textView.layer.shouldRasterize = true

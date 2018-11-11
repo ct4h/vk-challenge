@@ -10,6 +10,7 @@ import Foundation
 
 struct Post: Decodable {
 
+    let source_id: Int
     let date: Int
 
 //    let post_id: Int
@@ -20,6 +21,7 @@ struct Post: Decodable {
     let comments: Comments?
     let reposts: Reposts?
     let views: Views?
+
 
 //    "comments": {
 //    "count": 1,
@@ -67,8 +69,33 @@ struct Views: Decodable {
     let count: Int
 }
 
+protocol PostOwner {
+    var id: Int { get }
+    var name: String { get }
+    var photo_100: String { get }
+}
+
+struct Profile: Decodable, PostOwner {
+    let id: Int
+    let first_name: String
+    let last_name: String
+    let photo_100: String
+
+    var name: String {
+        return first_name + last_name
+    }
+}
+
+struct Group: Decodable, PostOwner{
+    let id: Int
+    let name: String
+    let photo_100: String
+}
+
 struct NewsFeedResponse: Decodable {
     let items: [Post]
+    let groups: [Group]
+    let profiles: [Profile]
 }
 
 
