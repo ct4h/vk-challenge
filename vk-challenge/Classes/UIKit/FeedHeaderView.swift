@@ -16,29 +16,30 @@ struct FeedHeaderViewModel {
 
 class FeedHeaderView: UIView {
 
-    let imageView = UIImageView()
+    let imageView = AvatarImageView()
     let nameLabel = UILabel()
     let dateLabel = UILabel()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
+        isOpaque = true
+        backgroundColor = .white
+
         [imageView, nameLabel, dateLabel].forEach({ addSubview($0) })
 
-        imageView.backgroundColor = .red
-        
-        // TODO: Внутрений бардюр
+        imageView.backgroundColor = .white
+        imageView.isOpaque = true
 
         nameLabel.textColor = UIColor(red: 0.17, green: 0.18, blue: 0.18, alpha: 1)
         nameLabel.font = UIFont(name: "SFProText-Medium", size: 14)
         nameLabel.backgroundColor = .white
+        nameLabel.isOpaque = true
 
         dateLabel.textColor = UIColor(red: 0.5, green: 0.55, blue: 0.6, alpha: 1)
         dateLabel.font = UIFont(name: "SFProText-Regular", size: 12)
         dateLabel.backgroundColor = .white
-
-        nameLabel.text = "fjsfbfhjjsk"
-        dateLabel.text = "9 jhfhf 32902"
+        dateLabel.isOpaque = true
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -57,8 +58,7 @@ class FeedHeaderView: UIView {
     }
 
     func configureBy(viewModel: FeedHeaderViewModel) {
-        // TODO: Загрузка изображения
-
+        imageView.set(imageURL: viewModel.imageURL)
         nameLabel.text = viewModel.name
         dateLabel.text = viewModel.date
     }

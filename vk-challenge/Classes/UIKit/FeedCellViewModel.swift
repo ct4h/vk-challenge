@@ -85,7 +85,7 @@ class FeedCellViewModel {
     }
 }
 
-extension Int {
+private extension Int {
 
     var userFriendly: String {
         if self == 0 {

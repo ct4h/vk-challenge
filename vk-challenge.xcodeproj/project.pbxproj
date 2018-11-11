@@ -19,6 +19,8 @@
 		50BD155121973F3900E28463 /* FeedCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BD155021973F3900E28463 /* FeedCellViewModel.swift */; };
 		50BD15552197F8C900E28463 /* FeedHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BD15542197F8C900E28463 /* FeedHeaderView.swift */; };
 		50BD155721980DF300E28463 /* FeedFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BD155621980DF300E28463 /* FeedFooterView.swift */; };
+		50BD155921982CBF00E28463 /* AvatarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BD155821982CBF00E28463 /* AvatarImageView.swift */; };
+		50BD155B21982D0C00E28463 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BD155A21982D0C00E28463 /* ImageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +38,8 @@
 		50BD155021973F3900E28463 /* FeedCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCellViewModel.swift; sourceTree = "<group>"; };
 		50BD15542197F8C900E28463 /* FeedHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedHeaderView.swift; sourceTree = "<group>"; };
 		50BD155621980DF300E28463 /* FeedFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedFooterView.swift; sourceTree = "<group>"; };
+		50BD155821982CBF00E28463 /* AvatarImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarImageView.swift; sourceTree = "<group>"; };
+		50BD155A21982D0C00E28463 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +142,8 @@
 				50BD155021973F3900E28463 /* FeedCellViewModel.swift */,
 				50BD15542197F8C900E28463 /* FeedHeaderView.swift */,
 				50BD155621980DF300E28463 /* FeedFooterView.swift */,
+				50BD155821982CBF00E28463 /* AvatarImageView.swift */,
+				50BD155A21982D0C00E28463 /* ImageView.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -237,8 +243,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				50BD154D21972A0300E28463 /* FeedCell.swift in Sources */,
+				50BD155921982CBF00E28463 /* AvatarImageView.swift in Sources */,
 				50BD155121973F3900E28463 /* FeedCellViewModel.swift in Sources */,
 				50BD155721980DF300E28463 /* FeedFooterView.swift in Sources */,
+				50BD155B21982D0C00E28463 /* ImageView.swift in Sources */,
 				501C7D022196FDB300EFB252 /* FeedsViewController.swift in Sources */,
 				50BD154A21971E4300E28463 /* AuthManager.swift in Sources */,
 				501C7CED2196FD0100EFB252 /* AppDelegate.swift in Sources */,
