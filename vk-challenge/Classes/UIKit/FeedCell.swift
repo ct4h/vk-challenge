@@ -21,10 +21,7 @@ class FeedCell: UITableViewCell {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 10
-        view.layer.shadowColor = UIColor(red: 0.39, green: 0.4, blue: 0.44, alpha: 0.07).cgColor
-        view.layer.shadowOpacity = 1
-        view.layer.shadowRadius = 18
-        view.layer.shadowOffset = CGSize(width: 0, height: 24)
+        view.clipsToBounds = true
         return view
     }()
 
@@ -62,6 +59,10 @@ class FeedCell: UITableViewCell {
         
         backgroundColor = .clear
         contentView.backgroundColor = .clear
+        contentView.layer.shadowColor = UIColor(red: 0.39, green: 0.4, blue: 0.44, alpha: 0.07).cgColor
+        contentView.layer.shadowOpacity = 1
+        contentView.layer.shadowRadius = 18
+        contentView.layer.shadowOffset = CGSize(width: 0, height: 24)
 
         contentView.addSubview(bubbleView)
         bubbleView.addSubview(headerView)
@@ -75,14 +76,6 @@ class FeedCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        var bubbleViewFrame = contentView.bounds.insetBy(dx: 8, dy: 0)
-        bubbleViewFrame.size.height -= 12
-        bubbleView.frame = bubbleViewFrame
-    }
-
     override func prepareForReuse() {
         super.prepareForReuse()
 
@@ -93,6 +86,8 @@ class FeedCell: UITableViewCell {
     }
 
     func configureBy(viewModel: FeedCellViewModel) {
+        bubbleView.frame = viewModel.contentFrame
+
         if let headerVM = viewModel.headerVM, let frame = viewModel.headerFrame {
             headerView.frame = frame
             headerView.configureBy(viewModel: headerVM)
@@ -138,6 +133,13 @@ class FeedCell: UITableViewCell {
 
     static func contentViewWidth(containerSize: CGSize) -> CGFloat {
         return containerSize.width - 2 * Constants.contentMargin
+    }
+
+    static func containerLayout(containerSize: CGSize, contentHeight: CGFloat) -> CGRect {
+        return CGRect(x: Constants.contentMargin,
+                      y: 0,
+                      width: contentViewWidth(containerSize: containerSize),
+                      height: contentHeight)
     }
 
     static func headerLayout(containerSize: CGSize) -> CGRect {

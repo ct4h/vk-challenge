@@ -149,21 +149,25 @@ extension FeedsViewController: PaginationManagerDelegate {
         }
 
         DispatchQueue.main.async { [weak self] in
-            if force {
-                self?.viewModels = newPosts
-            } else {
-                self?.viewModels.append(contentsOf: newPosts)
+            guard let `self` = self else {
+                return
             }
 
-            self?.tableView.reloadData()
+            if force {
+                self.viewModels = newPosts
+            } else {
+                self.viewModels.append(contentsOf: newPosts)
+            }
+
+            self.tableView.reloadData()
 
             if data.next_from == nil {
-                self?.indicatorView.countPosts = self?.viewModels.count
+                self.indicatorView.countPosts = self.viewModels.count
             }
 
             if force {
-                self?.refreshControl.endRefreshing()
-                self?.tableView.addFadeAnimation()
+                self.refreshControl.endRefreshing()
+                self.tableView.addFadeAnimation()
             }
         }
     }

@@ -13,11 +13,7 @@ class FeedCellViewModel {
     let post: Post
     let owner: PostOwner?
 
-    var height: CGFloat = 0 {
-        didSet {
-            print("Update height to \(height)")
-        }
-    }
+    var height: CGFloat = 0
 
     private(set) var contentFrame: CGRect = .zero
 
@@ -121,8 +117,9 @@ class FeedCellViewModel {
             self.footerFrame = footerFrame
         }
 
-        let bottomShadowOffset: CGFloat = 12
-        self.height = height + bottomShadowOffset
+        let bottomOffset: CGFloat = 12
+        contentFrame = FeedCell.containerLayout(containerSize: containerSize, contentHeight: height)
+        self.height = contentFrame.height + bottomOffset
     }
 }
 
