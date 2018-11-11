@@ -42,5 +42,6 @@ class ImageView: UIImageView {
     func cancelLoad() {
         currentTask?.cancel()
         currentTask = nil
+        image = nil
     }
 }

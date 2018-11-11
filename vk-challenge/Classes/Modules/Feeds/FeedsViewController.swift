@@ -14,6 +14,7 @@ class FeedsViewController: UIViewController {
     let paginationManager = PaginationManager()
     let tableView = UITableView()
     let refreshControl = UIRefreshControl()
+    let indicatorView = BottomIndicationView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 40))
 
     var viewModels: [FeedCellViewModel] = []
 
@@ -54,6 +55,7 @@ class FeedsViewController: UIViewController {
         tableView.frame = view.bounds
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
+        tableView.tableFooterView = indicatorView
         view.addSubview(tableView)
 
         refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
@@ -108,6 +110,8 @@ extension FeedsViewController: UITableViewDelegate {
 extension FeedsViewController: PaginationManagerDelegate {
 
     func performRequest(next: String?, completion: @escaping (String?, Int) -> Void) -> URLSessionTask? {
+        indicatorView.countPosts = nil
+
         return apiClient.send(request: .newsfeed(startFrom: next)) { [weak self] (data: NewsFeedResponse?) in
             print("[\(Thread.isMainThread ? "MAIN": "BACK")] end request")
             self?.process(data: data, force: next == nil)
@@ -152,6 +156,10 @@ extension FeedsViewController: PaginationManagerDelegate {
             }
 
             self?.tableView.reloadData()
+
+            if data.next_from == nil {
+                self?.indicatorView.countPosts = self?.viewModels.count
+            }
 
             if force {
                 self?.refreshControl.endRefreshing()
