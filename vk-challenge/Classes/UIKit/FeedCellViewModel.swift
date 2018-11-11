@@ -30,6 +30,9 @@ class FeedCellViewModel {
     let footerVM: FeedFooterViewModel?
     private(set) var footerFrame: CGRect?
 
+    private(set) var attachmentVMs: [AttachImageViewViewModel]?
+    private(set) var attachmentsFrame: CGRect?
+
     init(post: Post, owner: PostOwner?) {
         self.post = post
         self.owner = owner
@@ -84,6 +87,27 @@ class FeedCellViewModel {
             textFrame.origin.y = height + space
             height = textFrame.maxY + space
             self.textFrame = textFrame
+        }
+
+        if let attachments = post.attachments {
+            let contentWidth = FeedCell.contentViewWidth(containerSize: containerSize)
+
+            var viewModels: [AttachImageViewViewModel] = []
+            for attachment in attachments where attachment.type == .photo {
+                if let size = attachment.photo?.sizes.last {
+                    let ratio = CGFloat(size.width) / CGFloat(size.height)
+                    let width = contentWidth
+                    let height = ceil(width / ratio)
+                    let url = URL(string: size.url)
+                    viewModels.append(AttachImageViewViewModel(url: url, size: CGSize(width: width, height: height)))
+                }
+            }
+
+            if !viewModels.isEmpty {
+                attachmentVMs = viewModels
+                attachmentsFrame = CGRect(origin: CGPoint(x: 0, y: height), size: viewModels.first?.size ?? .zero)
+                height = attachmentsFrame?.maxY ?? height
+            }
         }
 
         if footerVM != nil {

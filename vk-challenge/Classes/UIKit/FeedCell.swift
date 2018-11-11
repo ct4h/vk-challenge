@@ -41,6 +41,8 @@ class FeedCell: UITableViewCell {
         return view
     }()
 
+    let attachImageView = AttachImageView(frame: .zero)
+
     let footerView = FeedFooterView()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -54,6 +56,7 @@ class FeedCell: UITableViewCell {
         contentView.addSubview(bubbleView)
         bubbleView.addSubview(headerView)
         bubbleView.addSubview(textView)
+        bubbleView.addSubview(attachImageView)
         bubbleView.addSubview(footerView)
     }
 
@@ -92,6 +95,14 @@ class FeedCell: UITableViewCell {
         //textView.layer.shouldRasterize = true
         } else {
             textView.isHidden = true
+        }
+
+        if let attachVM = viewModel.attachmentVMs?.first, let frame = viewModel.attachmentsFrame {
+            attachImageView.frame = frame
+            attachImageView.configureBy(viewModel: attachVM)
+            attachImageView.isHidden = false
+        } else {
+            attachImageView.isHidden = true
         }
 
         if let footerVM = viewModel.footerVM, let frame = viewModel.footerFrame {
