@@ -74,6 +74,7 @@ class FeedCellViewModel {
 
     func updateLayout(containerSize: CGSize) {
         var height: CGFloat = 0
+        let space: CGFloat = 10
 
         if headerVM != nil {
             let headerFrame = FeedCell.headerLayout(containerSize: containerSize)
@@ -82,31 +83,34 @@ class FeedCellViewModel {
         }
 
         if let textStorage = textStorage {
-            let space: CGFloat = 10
             var textFrame = FeedCell.textLayout(text: textStorage, containerSize: containerSize)
             textFrame.origin.y = height + space
-            height = textFrame.maxY + space
+            height = textFrame.maxY
             self.textFrame = textFrame
         }
 
         if let attachments = post.attachments {
-            let contentWidth = FeedCell.contentViewWidth(containerSize: containerSize)
+            let photoAttachments = attachments.filter({ $0.type == .photo })
+            let contentWidth = FeedCell.attachmentsWidth(containerSize: containerSize, count: photoAttachments.count)
+            var attachmentVMs: [AttachImageViewViewModel] = []
 
-            var viewModels: [AttachImageViewViewModel] = []
-            for attachment in attachments where attachment.type == .photo {
-                if let size = attachment.photo?.sizes.last {
-                    let ratio = CGFloat(size.width) / CGFloat(size.height)
-                    let width = contentWidth
-                    let height = ceil(width / ratio)
+            for attachment in photoAttachments {
+                if let size = attachment.photo?.size(containerWidth: contentWidth) {
                     let url = URL(string: size.url)
-                    viewModels.append(AttachImageViewViewModel(url: url, size: CGSize(width: width, height: height)))
+                    let scaledSize = size.scaledSizeBy(containerWidth: contentWidth)
+                    let viewModel = AttachImageViewViewModel(url: url, size: scaledSize)
+                    attachmentVMs.append(viewModel)
                 }
             }
 
-            if !viewModels.isEmpty {
-                attachmentVMs = viewModels
-                attachmentsFrame = CGRect(origin: CGPoint(x: 0, y: height), size: viewModels.first?.size ?? .zero)
-                height = attachmentsFrame?.maxY ?? height
+            if !attachmentVMs.isEmpty {
+                let fullContentWidth = FeedCell.contentViewWidth(containerSize: containerSize)
+                let attachment = attachmentVMs[0]
+                let frame = CGRect(origin: CGPoint(x: 0, y: height + space),
+                                   size: CGSize(width: fullContentWidth, height: attachment.size.height))
+                attachmentsFrame = frame
+                self.attachmentVMs = attachmentVMs
+                height = frame.maxY
             }
         }
 
@@ -176,5 +180,23 @@ private extension String {
 
     var url: URL? {
         return URL(string: self)
+    }
+}
+
+private extension Photo {
+
+    func size(containerWidth: CGFloat) -> AttachmentSize? {
+        let scaledWidth = containerWidth * UIScreen.main.scale
+        let size = sizes.first(where: { CGFloat($0.width) >= scaledWidth })
+        return size ?? sizes.last
+    }
+}
+
+private extension AttachmentSize {
+
+    func scaledSizeBy(containerWidth: CGFloat) -> CGSize {
+        let ratio = CGFloat(width) / CGFloat(height)
+        let scaledHeight = ceil(containerWidth / ratio)
+        return CGSize(width: containerWidth, height: scaledHeight)
     }
 }

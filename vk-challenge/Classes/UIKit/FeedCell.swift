@@ -14,6 +14,7 @@ class FeedCell: UITableViewCell {
         static let contentMargin: CGFloat = 8
         static let textMargin: CGFloat = 12
         static let headerMargin: CGFloat = 12
+        static let attachmentsMargin: CGFloat = 12
     }
 
     let bubbleView: UIView = {
@@ -43,6 +44,15 @@ class FeedCell: UITableViewCell {
 
     let attachImageView = AttachImageView(frame: .zero)
 
+    let attachmentsCollectionView: AttachmentsCollectionView = {
+        let view = AttachmentsCollectionView(frame: .zero)
+        view.collectionView.contentInset = UIEdgeInsets(top: 0,
+                                                        left: Constants.attachmentsMargin,
+                                                        bottom: 0,
+                                                        right: Constants.attachmentsMargin)
+        return view
+    }()
+
     let footerView = FeedFooterView()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -57,6 +67,7 @@ class FeedCell: UITableViewCell {
         bubbleView.addSubview(headerView)
         bubbleView.addSubview(textView)
         bubbleView.addSubview(attachImageView)
+        bubbleView.addSubview(attachmentsCollectionView)
         bubbleView.addSubview(footerView)
     }
 
@@ -77,6 +88,8 @@ class FeedCell: UITableViewCell {
 
 //        textView.layer.shouldRasterize = false
         textView.attributedText = nil
+        attachImageView.cancelLoad()
+        attachmentsCollectionView.viewModels = nil
     }
 
     func configureBy(viewModel: FeedCellViewModel) {
@@ -97,12 +110,21 @@ class FeedCell: UITableViewCell {
             textView.isHidden = true
         }
 
-        if let attachVM = viewModel.attachmentVMs?.first, let frame = viewModel.attachmentsFrame {
-            attachImageView.frame = frame
-            attachImageView.configureBy(viewModel: attachVM)
-            attachImageView.isHidden = false
+        if let attachVMs = viewModel.attachmentVMs, let frame = viewModel.attachmentsFrame {
+            if attachVMs.count == 1 {
+                attachImageView.frame = frame
+                attachImageView.configureBy(viewModel: attachVMs[0])
+                attachImageView.isHidden = false
+                attachmentsCollectionView.isHidden = true
+            } else {
+                attachmentsCollectionView.frame = frame
+                attachmentsCollectionView.viewModels = attachVMs
+                attachImageView.isHidden = true
+                attachmentsCollectionView.isHidden = false
+            }
         } else {
             attachImageView.isHidden = true
+            attachmentsCollectionView.isHidden = true
         }
 
         if let footerVM = viewModel.footerVM, let frame = viewModel.footerFrame {
@@ -134,6 +156,15 @@ class FeedCell: UITableViewCell {
         let textSize = CTFramesetterSuggestFrameSizeWithConstraints(framesetter, CFRange(), nil, maxSize, nil)
         let size = CGSize(width: ceil(textSize.width), height: ceil(textSize.height))
         return CGRect(origin: CGPoint(x: Constants.textMargin, y: 0), size: size)
+    }
+
+    static func attachmentsWidth(containerSize: CGSize, count: Int) -> CGFloat {
+        let width = contentViewWidth(containerSize: containerSize)
+        if count == 1 {
+            return width
+        } else {
+            return width - Constants.attachmentsMargin * 2
+        }
     }
 
     static func footerLayout(containerSize: CGSize) -> CGRect {
