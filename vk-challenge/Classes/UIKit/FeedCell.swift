@@ -11,7 +11,9 @@ import UIKit
 class FeedCell: UITableViewCell {
 
     private struct Constants {
+        static let contentMargin: CGFloat = 8
         static let textMargin: CGFloat = 20
+        static let headerMargin: CGFloat = 12
     }
 
     let bubbleView: UIView = {
@@ -75,16 +77,16 @@ class FeedCell: UITableViewCell {
     }
 
     func configureBy(viewModel: FeedCellViewModel) {
-        if let headerVM = viewModel.headerVM {
-            headerView.frame = CGRect(x: 12, y: 12, width: bubbleView.bounds.width - 24, height: 36)
+        if let headerVM = viewModel.headerVM, let frame = viewModel.headerFrame {
+            headerView.frame = frame
             headerView.configureBy(viewModel: headerVM)
             headerView.isHidden = false
         } else {
             headerView.isHidden = true
         }
 
-        if let textStorage = viewModel.textStorage, let textSize = viewModel.textSize {
-            textView.frame = CGRect(x: Constants.textMargin, y: headerView.frame.maxY + 10, width: textSize.width, height: textSize.height)
+        if let textStorage = viewModel.textStorage, let frame = viewModel.textFrame {
+            textView.frame = frame
             textView.attributedText = textStorage
             textView.isHidden = false
         //textView.layer.shouldRasterize = true
@@ -98,12 +100,24 @@ class FeedCell: UITableViewCell {
         }
     }
 
-    static func prepare(text: NSAttributedString, containerSize: CGSize) -> CGSize {
+    static func contentViewWidth(containerSize: CGSize) -> CGFloat {
+        return containerSize.width - 2 * Constants.contentMargin
+    }
+
+    static func headerLayout(containerSize: CGSize) -> CGRect {
+        let headerHeight: CGFloat = 36
+        let width = contentViewWidth(containerSize: containerSize) - Constants.headerMargin * 2
+        return CGRect(x:  Constants.headerMargin,
+                      y: Constants.headerMargin,
+                      width: width,
+                      height: headerHeight)
+    }
+
+    static func textLayout(text: NSAttributedString, containerSize: CGSize) -> CGRect {
         let maxSize = CGSize(width: containerSize.width - 2 * Constants.textMargin, height: containerSize.height)
         let rect = text.boundingRect(with: maxSize, options: [.usesLineFragmentOrigin, .usesFontLeading], context: nil)
-        let width = ceil(rect.width)
-        let height = ceil(rect.height)
-        return CGSize(width: width, height: height)
+        let size = CGSize(width: ceil(rect.width), height: ceil(rect.height))
+        return CGRect(origin: .zero, size: size)
     }
 }
 

@@ -11,6 +11,7 @@
 		501C7CF42196FD0500EFB252 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 501C7CF32196FD0500EFB252 /* Assets.xcassets */; };
 		501C7CF72196FD0500EFB252 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 501C7CF52196FD0500EFB252 /* LaunchScreen.storyboard */; };
 		501C7D022196FDB300EFB252 /* FeedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C7D012196FDB300EFB252 /* FeedsViewController.swift */; };
+		5038C2772198635B003DA3BB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5038C2762198635B003DA3BB /* Localizable.strings */; };
 		50BD154121970C9200E28463 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BD154021970C9200E28463 /* Model.swift */; };
 		50BD15442197108C00E28463 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BD15432197108C00E28463 /* ApiClient.swift */; };
 		50BD154721971C4200E28463 /* VKSdkFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50BD154621971C4200E28463 /* VKSdkFramework.framework */; };
@@ -27,9 +28,10 @@
 		501C7CE92196FD0100EFB252 /* vk-challenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "vk-challenge.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		501C7CEC2196FD0100EFB252 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		501C7CF32196FD0500EFB252 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		501C7CF62196FD0500EFB252 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		501C7CF82196FD0500EFB252 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		501C7D012196FDB300EFB252 /* FeedsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsViewController.swift; sourceTree = "<group>"; };
+		5038C27521986324003DA3BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		5038C2762198635B003DA3BB /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		50BD154021970C9200E28463 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		50BD15432197108C00E28463 /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
 		50BD154621971C4200E28463 /* VKSdkFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VKSdkFramework.framework; path = Carthage/Build/iOS/VKSdkFramework.framework; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 				501C7CF32196FD0500EFB252 /* Assets.xcassets */,
 				501C7CF52196FD0500EFB252 /* LaunchScreen.storyboard */,
 				501C7CF82196FD0500EFB252 /* Info.plist */,
+				5038C2762198635B003DA3BB /* Localizable.strings */,
 			);
 			path = "vk-challenge";
 			sourceTree = "<group>";
@@ -189,7 +192,6 @@
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
 			);
 			mainGroup = 501C7CE02196FD0100EFB252;
@@ -208,6 +210,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				501C7CF72196FD0500EFB252 /* LaunchScreen.storyboard in Resources */,
+				5038C2772198635B003DA3BB /* Localizable.strings in Resources */,
 				501C7CF42196FD0500EFB252 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -262,7 +265,7 @@
 		501C7CF52196FD0500EFB252 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				501C7CF62196FD0500EFB252 /* Base */,
+				5038C27521986324003DA3BB /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -274,6 +277,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -335,6 +339,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

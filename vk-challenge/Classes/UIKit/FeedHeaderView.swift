@@ -54,7 +54,7 @@ class FeedHeaderView: UIView {
         let labelOriginX = imageView.frame.maxX + 10
         let labelWidth = bounds.width - labelOriginX
         nameLabel.frame = CGRect(x: labelOriginX, y: 2, width: labelWidth, height: 17)
-        dateLabel.frame = CGRect.init(x: labelOriginX, y: nameLabel.frame.maxY + 1, width: labelWidth, height: 15)
+        dateLabel.frame = CGRect(x: labelOriginX, y: nameLabel.frame.maxY + 1, width: labelWidth, height: 15)
     }
 
     func configureBy(viewModel: FeedHeaderViewModel) {

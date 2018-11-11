@@ -10,13 +10,11 @@ import UIKit
 
 class ImageView: UIImageView {
 
-    var currentTask: URLSessionTask?
+    private var currentTask: URLSessionTask?
 
     func set(imageURL: URL?, placeholder: UIImage?, preprocess: @escaping (UIImage) -> UIImage?) {
         image = placeholder
-
-        currentTask?.cancel()
-        currentTask = nil
+        cancelLoad()
 
         guard let imageURL = imageURL else {
             return
@@ -26,8 +24,6 @@ class ImageView: UIImageView {
         urlRequest.cachePolicy = .useProtocolCachePolicy
 
         currentTask = URLSession.shared.dataTask(with: urlRequest) { [weak self] (data, response, error) in
-            print("Finish request error \(String(describing: error))")
-
             if self?.currentTask?.originalRequest?.url != imageURL {
                 return
             }
@@ -41,5 +37,10 @@ class ImageView: UIImageView {
         }
 
         currentTask?.resume()
+    }
+
+    func cancelLoad() {
+        currentTask?.cancel()
+        currentTask = nil
     }
 }

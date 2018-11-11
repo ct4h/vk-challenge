@@ -10,15 +10,6 @@ import UIKit
 
 class FeedCellViewModel {
 
-    static let dateFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        // TODO: Форматтер с годом
-        // TODO: Локализация
-        dateFormatter.dateFormat = "dd MMM в hh:mm"
-        dateFormatter.locale = Locale.current
-        return dateFormatter
-    }()
-
     let post: Post
     let owner: PostOwner?
 
@@ -29,21 +20,20 @@ class FeedCellViewModel {
     }
 
     let headerVM: FeedHeaderViewModel?
-    let footerVM: FeedFooterViewModel?
+    private(set) var headerFrame: CGRect?
 
     let textStorage: NSTextStorage?
-    var textSize: CGSize?
+    private(set) var textFrame: CGRect?
+
+    let footerVM: FeedFooterViewModel?
 
     init(post: Post, owner: PostOwner?) {
         self.post = post
         self.owner = owner
 
         if let owner = owner {
-            // TODO: Фото опциональное
-            let imageURL = URL(string: owner.photo_100)
-            let date = Date(timeIntervalSince1970: TimeInterval(post.date))
-            let dateString = FeedCellViewModel.dateFormatter.string(from: date)
-            headerVM = FeedHeaderViewModel(imageURL: imageURL, name: owner.name, date: dateString)
+            let date = DateFormatter.humanDateString(timeInterval: TimeInterval(post.date))
+            headerVM = FeedHeaderViewModel(imageURL: owner.photo_100?.url, name: owner.name, date: date)
         } else {
             headerVM = nil
         }
@@ -68,13 +58,18 @@ class FeedCellViewModel {
     func updateLayout(containerSize: CGSize) {
         var height: CGFloat = 0
 
-        if let textStorage = textStorage {
-            let textSize = FeedCell.prepare(text: textStorage, containerSize: containerSize)
-            height += textSize.height
-            self.textSize = textSize
+        if headerVM != nil {
+            let headerFrame = FeedCell.headerLayout(containerSize: containerSize)
+            height = headerFrame.maxY
+            self.headerFrame = headerFrame
         }
 
-        // TODO: Сделать захват фрейма хедера
+        if let textStorage = textStorage {
+            let space: CGFloat = 10
+            let textFrame = FeedCell.textLayout(text: textStorage, containerSize: containerSize)
+            height += textFrame.height + space
+            self.textFrame = textFrame
+        }
 
         let headerHeight: CGFloat = 36
         let margin: CGFloat = 12
@@ -97,5 +92,47 @@ private extension Int {
         } else {
             return "\(self / 1_000)K"
         }
+    }
+}
+
+private extension DateFormatter {
+
+    private static let currentYear: Int = {
+        return Calendar.current.component(.year, from: Date())
+    }()
+
+    private static let defaultDateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = NSLocalizedString("date-formatter.default-format", comment: "")
+        dateFormatter.locale = Locale.current
+        return dateFormatter
+    }()
+
+    private static let yearDateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = NSLocalizedString("date-formatter.year-format", comment: "")
+        dateFormatter.locale = Locale.current
+        return dateFormatter
+    }()
+
+    static func humanDateString(timeInterval: TimeInterval) -> String {
+        let date = Date(timeIntervalSince1970: timeInterval)
+        let year = Calendar.current.component(.year, from: date)
+
+        let dateFormatter: DateFormatter
+        if year < DateFormatter.currentYear {
+            dateFormatter = yearDateFormatter
+        } else {
+            dateFormatter = defaultDateFormatter
+        }
+
+        return dateFormatter.string(from: date).lowercased()
+    }
+}
+
+private extension String {
+
+    var url: URL? {
+        return URL(string: self)
     }
 }

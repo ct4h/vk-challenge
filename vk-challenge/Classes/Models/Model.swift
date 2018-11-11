@@ -72,14 +72,14 @@ struct Views: Decodable {
 protocol PostOwner {
     var id: Int { get }
     var name: String { get }
-    var photo_100: String { get }
+    var photo_100: String? { get }
 }
 
 struct Profile: Decodable, PostOwner {
     let id: Int
     let first_name: String
     let last_name: String?
-    let photo_100: String
+    let photo_100: String?
 
     var name: String {
         return first_name + " " + (last_name ?? "")
@@ -89,7 +89,7 @@ struct Profile: Decodable, PostOwner {
 struct Group: Decodable, PostOwner{
     let id: Int
     let name: String
-    let photo_100: String
+    let photo_100: String?
 }
 
 struct NewsFeedResponse: Decodable {
