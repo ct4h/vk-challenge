@@ -41,6 +41,24 @@ class FeedCellViewModel {
             headerVM = nil
         }
 
+        if let text = post.text {
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.lineSpacing = 4
+            paragraphStyle.lineBreakMode = .byWordWrapping
+            paragraphStyle.alignment = .left
+
+            let attributes: [NSAttributedString.Key : Any] = [
+                .font: UIFont(name: "SFProText-Regular", size: 15) ?? UIFont.systemFont(ofSize: 15),
+                .foregroundColor: UIColor(red: 0.17, green: 0.18, blue: 0.19, alpha: 1),
+                .paragraphStyle: paragraphStyle
+            ]
+
+            let attributedText = NSAttributedString(string: text, attributes: attributes)
+            self.textStorage = NSTextStorage(attributedString: attributedText)
+        } else {
+            self.textStorage = nil
+        }
+
         if let likes = post.likes, let repost = post.reposts {
             footerVM = FeedFooterViewModel(likes: likes.count.userFriendly,
                                            comments: post.comments?.count.userFriendly,
@@ -49,13 +67,6 @@ class FeedCellViewModel {
         } else {
             footerVM = nil
         }
-
-        // TODO: Настроить шрифты
-        // TODO: Форматирование тегов, и финаьная настройка текста
-        let attributedText = NSAttributedString(string: post.text ?? "", attributes: [.font: UIFont.systemFont(ofSize: 16)])
-
-        let textStorage = NSTextStorage(attributedString: attributedText)
-        self.textStorage = textStorage
     }
 
     func updateLayout(containerSize: CGSize) {

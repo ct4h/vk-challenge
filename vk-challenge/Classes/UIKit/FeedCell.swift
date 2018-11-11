@@ -119,8 +119,9 @@ class FeedCell: UITableViewCell {
     static func textLayout(text: NSAttributedString, containerSize: CGSize) -> CGRect {
         let width = contentViewWidth(containerSize: containerSize) - Constants.textMargin * 2
         let maxSize = CGSize(width: width, height: containerSize.height)
-        let rect = text.boundingRect(with: maxSize, options: [.usesLineFragmentOrigin, .usesFontLeading], context: nil)
-        let size = CGSize(width: ceil(rect.width), height: ceil(rect.height))
+        let framesetter = CTFramesetterCreateWithAttributedString(text)
+        let textSize = CTFramesetterSuggestFrameSizeWithConstraints(framesetter, CFRange(), nil, maxSize, nil)
+        let size = CGSize(width: ceil(textSize.width), height: ceil(textSize.height))
         return CGRect(origin: CGPoint(x: Constants.textMargin, y: 0), size: size)
     }
 
