@@ -45,8 +45,10 @@ class AuthViewController: UIViewController {
 extension AuthViewController: AuthManagerDelegate {
 
     func completeUpdate(token: String?) {
-        let controller = FeedsViewController(accessToken: token)
-        navigationController?.setViewControllers([controller], animated: true)
+        if let token = token {
+            let controller = FeedsViewController(accessToken: token)
+            navigationController?.setViewControllers([controller], animated: true)
+        }
     }
 
     func needDisplay(viewController: UIViewController) {

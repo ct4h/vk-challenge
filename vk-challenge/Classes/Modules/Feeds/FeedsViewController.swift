@@ -10,7 +10,8 @@ import UIKit
 
 class FeedsViewController: UIViewController {
 
-    let apiClient = ApiClient()
+    var apiClient: ApiClient!
+    let paginationManager = PaginationManager()
     let tableView = UITableView()
 
     var viewModels: [FeedCellViewModel] = []
@@ -29,10 +30,11 @@ class FeedsViewController: UIViewController {
         return layer
     }()
 
-    init(accessToken: String?) {
+    init(accessToken: String) {
         super.init(nibName: nil, bundle: nil)
 
-        apiClient.accessToken = accessToken
+        apiClient = ApiClient(accessToken: accessToken)
+        paginationManager.delegate = self
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -57,7 +59,9 @@ class FeedsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        loadData()
+        if viewModels.isEmpty {
+            paginationManager.refreshData()
+        }
     }
 }
 
@@ -84,17 +88,24 @@ extension FeedsViewController: UITableViewDelegate {
         }
 
         cell.configureBy(viewModel: viewModels[indexPath.row])
+        paginationManager.loadNextData(indexPath: indexPath)
     }
 }
 
 // MARK: - API
 
-extension FeedsViewController {
+extension FeedsViewController: PaginationManagerDelegate {
 
-    func loadData() {
-        apiClient.send(request: .newsfeed) { [weak self] (data: NewsFeedResponse?) in
+    func performRequest(next: String?, completion: @escaping (String?, Int) -> Void) -> URLSessionTask? {
+        return apiClient.send(request: .newsfeed(startFrom: next)) { [weak self] (data: NewsFeedResponse?) in
             print("[\(Thread.isMainThread ? "MAIN": "BACK")] end request")
             self?.process(data: data)
+
+            if let data = data {
+                DispatchQueue.main.async {
+                    completion(data.next_from, data.items.count)
+                }
+            }
         }
     }
 
@@ -126,5 +137,61 @@ extension FeedsViewController {
             self?.viewModels.append(contentsOf: newPosts)
             self?.tableView.reloadData()
         }
+    }
+}
+
+protocol PaginationManagerDelegate: class {
+    func performRequest(next: String?, completion: @escaping (String?, Int) -> Void) -> URLSessionTask?
+}
+
+class PaginationManager {
+
+    weak var delegate: PaginationManagerDelegate?
+
+    private var isLoading: Bool = false
+    private var isEnd: Bool = false
+    private var offset: Int = 0
+    private var next_from: String?
+    private var currentTask: URLSessionTask? {
+        didSet {
+            currentTask?.resume()
+        }
+    }
+
+    func refreshData() {
+        loadData(force: false)
+    }
+
+    func loadNextData(indexPath: IndexPath) {
+        if isEnd {
+            return
+        }
+
+        if isLoading {
+            return
+        }
+
+        if indexPath.row < offset {
+            return
+        }
+
+        isLoading = true
+        loadData(force: false)
+    }
+
+    private func loadData(force: Bool) {
+        isLoading = true
+        currentTask?.cancel()
+        currentTask = delegate?.performRequest(next: next_from, completion: { [weak self] next, count in
+            self?.isEnd = next == nil
+            self?.next_from = next
+            if force {
+                self?.offset = 0
+            } else {
+                self?.offset += count / 2
+            }
+
+            self?.isLoading = false
+        })
     }
 }

@@ -96,4 +96,5 @@ struct NewsFeedResponse: Decodable {
     let items: [Post]
     let groups: [Group]
     let profiles: [Profile]
+    let next_from: String?
 }

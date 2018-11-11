@@ -9,12 +9,23 @@
 import Foundation
 
 enum ApiRequest {
-    case newsfeed
+    case newsfeed(startFrom: String?)
 
     var method: String {
         switch self {
         case .newsfeed:
             return "newsfeed.get"
+        }
+    }
+
+    var parameters: [String: String] {
+        switch self {
+        case let .newsfeed(startFrom):
+            var parameters: [String: String] = [:]
+            if let startFrom = startFrom {
+                parameters["start_from"] = startFrom
+            }
+            return parameters
         }
     }
 
@@ -32,14 +43,33 @@ struct ApiResponse<T: Decodable>: Decodable {
 
 class ApiClient {
 
-    var accessToken: String?
+    let accessToken: String
 
-    func send<T: Decodable>(request: ApiRequest, complitionBlock: @escaping (T?) -> Void) {
+    init(accessToken: String) {
+        self.accessToken = accessToken
+    }
+
+    private var additionalParameters: [String: String] {
+        return ["access_token" : accessToken,
+                "v": "5.87"]
+    }
+
+    func send<T: Decodable>(request: ApiRequest, complitionBlock: @escaping (T?) -> Void) -> URLSessionTask? {
         let baseURL = "https://api.vk.com/method/"
         let session = URLSession.shared
 
-        guard let url = URL(string: baseURL + request.method + "?access_token=\(accessToken ?? "")&v=5.87") else {
-            return
+        var allParams: [String] = []
+        request.parameters.forEach { (key, value) in
+            allParams.append("\(key)=\(value)")
+        }
+        additionalParameters.forEach { (key, value) in
+            allParams.append("\(key)=\(value)")
+        }
+
+        let urlPath = baseURL + request.method + "?" + allParams.joined(separator: "&")
+
+        guard let url = URL(string: urlPath) else {
+            return nil
         }
 
         var urlRequest = URLRequest(url: url)
@@ -65,6 +95,6 @@ class ApiClient {
             }
         }
 
-        task.resume()
+        return task
     }
 }
