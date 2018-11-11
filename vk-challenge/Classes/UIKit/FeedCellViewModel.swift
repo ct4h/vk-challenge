@@ -19,6 +19,8 @@ class FeedCellViewModel {
         }
     }
 
+    private(set) var contentFrame: CGRect = .zero
+
     let headerVM: FeedHeaderViewModel?
     private(set) var headerFrame: CGRect?
 
@@ -26,6 +28,7 @@ class FeedCellViewModel {
     private(set) var textFrame: CGRect?
 
     let footerVM: FeedFooterViewModel?
+    private(set) var footerFrame: CGRect?
 
     init(post: Post, owner: PostOwner?) {
         self.post = post
@@ -68,16 +71,19 @@ class FeedCellViewModel {
             let space: CGFloat = 10
             var textFrame = FeedCell.textLayout(text: textStorage, containerSize: containerSize)
             textFrame.origin.y = height + space
-            height = textFrame.maxY
+            height = textFrame.maxY + space
             self.textFrame = textFrame
         }
 
-        let headerHeight: CGFloat = 36
-        let margin: CGFloat = 12
-        let spacing: CGFloat = 10
-        let footerHeight: CGFloat = 48
+        if footerVM != nil {
+            var footerFrame = FeedCell.footerLayout(containerSize: containerSize)
+            footerFrame.origin.y = height
+            height = footerFrame.maxY
+            self.footerFrame = footerFrame
+        }
+
         let bottomShadowOffset: CGFloat = 12
-        self.height = height + headerHeight + margin + spacing + bottomShadowOffset + footerHeight
+        self.height = height + bottomShadowOffset
     }
 }
 

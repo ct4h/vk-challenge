@@ -13,8 +13,6 @@ struct Post: Decodable {
     let source_id: Int
     let date: Int
 
-//    let post_id: Int
-
     let text: String?
 
     let likes: Likes?

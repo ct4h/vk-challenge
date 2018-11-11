@@ -17,7 +17,6 @@ struct FeedFooterViewModel {
 
 class FeedFooterView: UIView {
 
-    private var stackView: UIStackView?
     private let likesButton = FeedFooterButton()
     private let commentsButton = FeedFooterButton()
     private let repostsButton = FeedFooterButton()
@@ -26,50 +25,55 @@ class FeedFooterView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        backgroundColor = .red
+        backgroundColor = .white
+        isOpaque = true
 
-//        let stackView = UIStackView(arrangedSubviews: [likesButton,
-//                                                       commentsButton,
-//                                                       repostsButton])
-//        stackView.distribution = .equalSpacing
-//        stackView.axis = .horizontal
-//        stackView.alignment = .fill
-//        stackView.spacing = 10
-
-        [likesButton, commentsButton, repostsButton, viewsButton].forEach({ button in
-            button.translatesAutoresizingMaskIntoConstraints = false
-            addSubview(button)
-
-            NSLayoutConstraint.activate([
-                button.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 2.5)
-            ])
-        })
+        [likesButton, commentsButton, repostsButton, viewsButton].forEach({ addSubview($0) })
 
         likesButton.setImage(UIImage(named: "Like_outline_24"), for: .normal)
         commentsButton.setImage(UIImage(named: "Comment_outline_24"), for: .normal)
         repostsButton.setImage(UIImage(named: "Share_outline_24"), for: .normal)
         viewsButton.setImage(UIImage(named: "View_20"), for: .normal)
 
-
         viewsButton.isEnabled = false
-
-        NSLayoutConstraint.activate([
-            likesButton.leftAnchor.constraint(equalTo: leftAnchor, constant: 19),
-            commentsButton.leftAnchor.constraint(equalTo: leftAnchor, constant: 103),
-            repostsButton.leftAnchor.constraint(equalTo: leftAnchor, constant: 187),
-            viewsButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -16)
-        ])
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+    private func updateLayout() {
+        let margin: CGFloat = 16
+        let spacing: CGFloat = 10
+        let buttonCount: CGFloat = 4
+
+        let contentWidth = bounds.width - 2 * margin
+        let buttonWidth = ceil((contentWidth - (buttonCount - 1) * spacing) / buttonCount)
+
+        var buttons: [FeedFooterButton] = [likesButton]
+        if !commentsButton.isHidden {
+            buttons.append(commentsButton)
+        }
+        buttons.append(repostsButton)
+
+        var originX = margin
+
+        for button in buttons {
+            let size = button.sizeThatFits(bounds.size)
+            button.frame = CGRect(origin: CGPoint(x: originX, y: ((bounds.height - size.height) / 2.0) + 2.5), size: size)
+            originX += buttonWidth + spacing
+        }
+
+        if !viewsButton.isHidden {
+            let size = viewsButton.sizeThatFits(bounds.size)
+            viewsButton.frame = CGRect(origin: CGPoint(x: bounds.width - margin - size.width, y: ((bounds.height - size.height) / 2.0) + 2.5), size: size)
+        }
+    }
+
     func configureBy(viewModel: FeedFooterViewModel) {
         likesButton.setTitle(viewModel.likes, for: .normal)
         repostsButton.setTitle(viewModel.reposts, for: .normal)
 
-        // TODO: Констрейнт
         if let comments = viewModel.comments {
             commentsButton.setTitle(comments, for: .normal)
             commentsButton.isHidden = false
@@ -83,6 +87,8 @@ class FeedFooterView: UIView {
         } else {
             viewsButton.isHidden = true
         }
+
+        updateLayout()
     }
 }
 
@@ -91,9 +97,7 @@ class FeedFooterButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        backgroundColor = .blue
-
-        contentEdgeInsets = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 10)
+        contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 7)
         titleEdgeInsets = UIEdgeInsets(top: 0, left: 7, bottom: 0, right: -7)
 
         if let label = titleLabel {

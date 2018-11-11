@@ -94,9 +94,12 @@ class FeedCell: UITableViewCell {
             textView.isHidden = true
         }
 
-        if let footerVM = viewModel.footerVM {
-            footerView.frame = CGRect(x: 0, y: textView.frame.maxY, width: bubbleView.bounds.width, height: 48)
+        if let footerVM = viewModel.footerVM, let frame = viewModel.footerFrame {
+            footerView.frame = frame
             footerView.configureBy(viewModel: footerVM)
+            footerView.isHidden = false
+        } else {
+            footerView.isHidden = true
         }
     }
 
@@ -107,7 +110,7 @@ class FeedCell: UITableViewCell {
     static func headerLayout(containerSize: CGSize) -> CGRect {
         let headerHeight: CGFloat = 36
         let width = contentViewWidth(containerSize: containerSize) - Constants.headerMargin * 2
-        return CGRect(x:  Constants.headerMargin,
+        return CGRect(x: Constants.headerMargin,
                       y: Constants.headerMargin,
                       width: width,
                       height: headerHeight)
@@ -119,6 +122,12 @@ class FeedCell: UITableViewCell {
         let rect = text.boundingRect(with: maxSize, options: [.usesLineFragmentOrigin, .usesFontLeading], context: nil)
         let size = CGSize(width: ceil(rect.width), height: ceil(rect.height))
         return CGRect(origin: CGPoint(x: Constants.textMargin, y: 0), size: size)
+    }
+
+    static func footerLayout(containerSize: CGSize) -> CGRect {
+        let footerHeight: CGFloat = 48
+        let width = contentViewWidth(containerSize: containerSize)
+        return CGRect(x: 0, y: 0, width: width, height: footerHeight)
     }
 }
 
