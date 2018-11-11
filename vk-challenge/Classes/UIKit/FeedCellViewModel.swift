@@ -66,8 +66,9 @@ class FeedCellViewModel {
 
         if let textStorage = textStorage {
             let space: CGFloat = 10
-            let textFrame = FeedCell.textLayout(text: textStorage, containerSize: containerSize)
-            height += textFrame.height + space
+            var textFrame = FeedCell.textLayout(text: textStorage, containerSize: containerSize)
+            textFrame.origin.y = height + space
+            height = textFrame.maxY
             self.textFrame = textFrame
         }
 

@@ -12,7 +12,7 @@ class FeedCell: UITableViewCell {
 
     private struct Constants {
         static let contentMargin: CGFloat = 8
-        static let textMargin: CGFloat = 20
+        static let textMargin: CGFloat = 12
         static let headerMargin: CGFloat = 12
     }
 
@@ -53,8 +53,8 @@ class FeedCell: UITableViewCell {
 
         contentView.addSubview(bubbleView)
         bubbleView.addSubview(headerView)
+        bubbleView.addSubview(textView)
         bubbleView.addSubview(footerView)
-        contentView.addSubview(textView)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -114,10 +114,11 @@ class FeedCell: UITableViewCell {
     }
 
     static func textLayout(text: NSAttributedString, containerSize: CGSize) -> CGRect {
-        let maxSize = CGSize(width: containerSize.width - 2 * Constants.textMargin, height: containerSize.height)
+        let width = contentViewWidth(containerSize: containerSize) - Constants.textMargin * 2
+        let maxSize = CGSize(width: width, height: containerSize.height)
         let rect = text.boundingRect(with: maxSize, options: [.usesLineFragmentOrigin, .usesFontLeading], context: nil)
         let size = CGSize(width: ceil(rect.width), height: ceil(rect.height))
-        return CGRect(origin: .zero, size: size)
+        return CGRect(origin: CGPoint(x: Constants.textMargin, y: 0), size: size)
     }
 }
 
